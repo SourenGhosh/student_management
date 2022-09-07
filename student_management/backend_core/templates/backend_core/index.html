@@ -1,12 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hello World</h1>
-</body>
-</html>
+{% extends "backend_core/base.html" %}
+
+{% block content %}
+  <h1>Home</h1><br>
+  <h3>Student Info</h3><br>
+  <form method="POST" id="search" action={% url 'home' %}>
+    <span>
+     {% csrf_token %}
+       <input type="text" name="search" placeholder="Type Name or Email" id="s" />
+       <input class="btn btn-primary" type="submit" value="submit">
+    </span>
+ </form>
+  <div>
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>School</th>
+            <th>Books</th>
+        </tr>
+        <tr>
+            {% for i in qs %}
+            <td>{{i.first_name}}</td>
+            <td>{{i.last_name}}</td>
+            <td>{{i.email}}</td>
+            <td>{{i.gender}}</td>
+            <td>{{i.school}}</td>
+            <td>{{i.books}}</td>
+        </tr>
+        {%endfor%}
+     </table>
+  </div>
+  
+{% endblock %}
