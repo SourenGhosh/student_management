@@ -2,15 +2,47 @@
 
 {% block content %}
   <h1>Home</h1><br>
+  <h3>Add Student</h3>
+  <div>
+    {% if form %}
+    <form method="POST" enctype="multipart/form-data">
+      <!--
+      <label for="html">Name</label><br>
+      <input type="text" name = "name"><br>
+      <label for="html">Video</label><br>
+      <input type="file" name="video" id="demos_video"><br>
+      -->
+      {% csrf_token %}
+      {{ form.as_p }}
+
+    <input class="btn btn-primary" type="submit" value="submit">
+  </form>
+  {% endif %}
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  </div>
   <h3>Student Info</h3><br>
-  <form method="POST" id="search" action={% url 'home' %}>
+  <form method="POST" id="search" action={% url 'search' %}>
     <span>
      {% csrf_token %}
        <input type="text" name="search" placeholder="Type Name or Email" id="s" />
        <input class="btn btn-primary" type="submit" value="submit">
     </span>
- </form>
+ </form><br>
+ <form method="GET" id="search" action={% url 'home' %}>
+  <span>
+   {% csrf_token %}
+     <input type="text" name="search_by_id" placeholder="Type Id" id="s" />
+     <input class="btn btn-primary" type="submit" value="submit">
+  </span>
+</form>
   <div>
+    {% if not error %}
     <table>
         <tr>
             <th>First Name</th>
@@ -31,6 +63,9 @@
         </tr>
         {%endfor%}
      </table>
+     {%else%}
+     <li>{{err}}</li>
+     {%endif%}
   </div>
   
 {% endblock %}
